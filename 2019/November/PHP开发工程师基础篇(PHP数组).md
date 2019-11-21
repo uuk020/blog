@@ -241,16 +241,16 @@ var_dump((array) new B());
      print_r(array_change_key_case($a)); // ['a' => 4, 'b' => 2, 3 => 'c']
      print_r(array_change_key_case($a, CASE_UPPER)); // ['A' => 4, 'B' => 2, 3 => 'c']
      ```
-   - array_key_exists — 检查数组里是否有指定的键名或索引
+   - array_key_exists ( mixed $key , array $array ) : bool — 检查数组里是否有指定的键名或索引
      ```php
      var_dump(array_key_exists('first', ['first' => 1, 'second' => 2])); // true
      ```
-   - array_key_first — 获取数组第一个键值
+   - array_key_first ( array $array ) : mixed — 获取数组第一个键值
      ```php
      // php >= 7.3.0
      var_dump(array_key_first(['a' => 1, 'b' => 2])); // 'a'
      ```
-   - array_key_last — 获取数组最后一个键值
+   - array_key_last ( array $array ) : mixed — 获取数组最后一个键值
      ```php
       // php >= 7.3.0
       var_dump(array_key_last(['a' => 1, 'b' => 2])); // 'b'
@@ -271,7 +271,7 @@ var_dump((array) new B());
       var_dump(array_pad($input, -5, 2)); // [2, 2, 12, 10, 9]
       var_dump(array_pad($input, 4, [1])); // [12, 10, 9, [1]]
      ```
-   - array_rand — 从数组中随机取出一个或多个单元
+   - array_rand ( array $array [, int $num = 1 ] ) : mixed — 从数组中随机取出一个或多个单元
      ```php
      var_dump(array_rand([1, 2, 3], 2)); // [1, 3]
      ```
@@ -304,7 +304,7 @@ var_dump((array) new B());
      $array2 = ["a" => "green", "yellow", "red"];
      print_r(array_diff_assoc($array1, $array2)); // ["b" => "brown", "c" => "blue", 0 => "red"]
      ```
-   - array_diff_key — 使用键名比较计算数组的差集
+   - array_diff_key ( array $array1 , array $array2 [, array $... ] ) : array — 使用键名比较计算数组的差集
      ```php
      $array1 = ['blue' => 1, 'red' => 2]; 
      $array2 = ['green' => 2, 'blue' => 1];
@@ -322,7 +322,7 @@ var_dump((array) new B());
      $array1 = array("a" => "green", "b" => "brown", "c" => "blue", "red");
      $array2 = array("a" => "green", "yellow", "red");
      $result = array_diff_uassoc($array1, $array2, "key_compare_func");
-     print_r($result); // ["b" => "brown", "c" => ""]
+     print_r($result); // ["b" => "brown", "c" => "blue", "red"]
      ```
    - array_diff_ukey ( array $array1 , array $array2 [, array $... ], callable $key_compare_func ) : array — 用回调函数对键名比较计算数组的差集
      ```php
@@ -360,7 +360,8 @@ var_dump((array) new B());
       $array2 = array('green' => 5, 'blue' => 6, 'yellow' => 7, 'cyan'   => 8);
       var_dump(array_intersect_key($array1, $array2)); // ['blue' => 1, 'green'=>5]
      ```
-   - array_intersect_uassoc — 带索引检查计算数组的交集，用回调函数比较索引
+   - array_intersect_uassoc ( array $array1 , array $array2 [, array $... ], callable $key_compare_func ) : array
+ — 带索引检查计算数组的交集，用回调函数比较索引
      ```php
       $array1 = ["a" => "green", "b" => "brown", "c" => "blue", "red"];
       $array2 = ["a" => "GREEN", "B" => "brown", "yellow", "red"];
@@ -558,7 +559,7 @@ var_dump((array) new B());
      uksort($arr, 'compare'); // true
      var_dump($arr); // ['a' => 3, 'b' => 9, 'c' => 4, 'd' => -1, 'e' => 8]
      ```
-   - usort — 使用用户自定义的比较函数对数组中的值进行排序
+   - usort ( array &$array , callable $value_compare_func ) : bool  — 使用用户自定义的比较函数对数组中的值进行排序
      ```php
      // 对多维数组排序时，$ a和$ b包含对数组第一个索引的引用。
      function cmp($a, $b)
@@ -604,7 +605,7 @@ var_dump((array) new B());
       }
       print_r('demo', ['a', 'b', 'c'], ['d', 'e', 'f']); // ['A-D', 'B-E', 'C-F']
       ```
-    - array_walk_recursive — 对数组中的每个成员递归地应用用户函数
+    - array_walk_recursive ( array &$array , callable $callback [, mixed $userdata = NULL ] ) : bool — 对数组中的每个成员递归地应用用户函数
       ```php
       $sweet = ['a' => 'apple', 'b' => 'banana'];
       $fruits = ['sweet' => $sweet, 'sour' => 'lemon'];
