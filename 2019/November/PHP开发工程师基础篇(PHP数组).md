@@ -358,7 +358,7 @@ var_dump((array) new B());
      ```php
       $array1 = array('blue'  => 1, 'red'  => 2, 'green'  => 3, 'purple' => 4);
       $array2 = array('green' => 5, 'blue' => 6, 'yellow' => 7, 'cyan'   => 8);
-      var_dump(array_intersect_key($array1, $array2)); // ['blue' => 1, 'green'=>5]
+      var_dump(array_intersect_key($array1, $array2)); // ['blue' => 1, 'green'=>3]
      ```
    - array_intersect_uassoc ( array $array1 , array $array2 [, array $... ], callable $key_compare_func ) : array
  — 带索引检查计算数组的交集，用回调函数比较索引
@@ -428,7 +428,7 @@ var_dump((array) new B());
          if ($a === $b) return 0;
          return $a > $b ? 1 : -1;
      }
-     print_r(array_udiff_uassoc($a, $b, 'compareValue', 'compareKey')); // [0.1 => 9, 0.5 => 12, 0 => 23]
+     print_r(array_udiff_uassoc($a, $b, 'compareValue', 'compareKey')); // ["0.1" => 9, "0.5" => 12, 0 => 23]
      ```
    - array_udiff ( array $array1 , array $array2 [, array $... ], callable $value_compare_func ) : array — 用回调函数比较数据来计算数组的差集
      ```php
@@ -472,8 +472,12 @@ var_dump((array) new B());
       // 更多用法请看 https://www.php.net/manual/en/function.array-multisort.php
       $ar1 = [10, 100, 100, 0];
       $ar2 = [1, 3, 2, 4];
-      array_multisort($ar1, $ar2); // [0, 10, 100, 100] [4, 1, 2, 3]
-      array_multisort($ar1, SORT_DESC, SORT_NUMERIC, $ar2, SORT_ASC, SORT_NUMERIC); // [100, 100, 10, 0] [2, 3, 1, 4]
+	  // $ar1 = [0, 10, 100, 100];
+	  // $ar2 = [4, 1, 2, 3];
+      array_multisort($ar1, $ar2); 
+	  // $ar1 = [100, 100, 10, 0];
+	  // $ar2 = [2, 3, 1, 4];
+      array_multisort($ar1, SORT_DESC, SORT_NUMERIC, $ar2, SORT_ASC, SORT_NUMERIC); //  
      ```
    - arsort ( array &$array [, int $sort_flags = SORT_REGULAR ] ) : bool — 对数组进行逆向排序并保持索引关系
      ```php
@@ -556,7 +560,7 @@ var_dump((array) new B());
          return ($a > $b)  ? -1 : 1;
      }
      $arr = ['a' => 3, 'b' => 9, 'c' => 4, 'e' => 8, 'd' => -1];
-     uksort($arr, 'compare'); // true
+     uksort($arr, 'keyCompare'); // true
      var_dump($arr); // ['a' => 3, 'b' => 9, 'c' => 4, 'd' => -1, 'e' => 8]
      ```
    - usort ( array &$array , callable $value_compare_func ) : bool  — 使用用户自定义的比较函数对数组中的值进行排序
@@ -568,7 +572,7 @@ var_dump((array) new B());
      }
      $fruits = [['fruit' => 'lemons'], ['fruit' => 'apples'], ['fruit' => 'grapes']];
      usort($fruits, "cmp");
-     var_dump($arr); // [['fruit' => 'apples'], ['fruit' => 'grapes'], ['fruit' => 'lemons']]
+     var_dump($fruits); // [['fruit' => 'apples'], ['fruit' => 'grapes'], ['fruit' => 'lemons']]
      ```
     - natcasesort ( array &$array ) : bool — 用“自然排序”算法对数组进行不区分大小写字母的排序
       ```php
@@ -603,7 +607,7 @@ var_dump((array) new B());
       function demo($n, $m) {
           return strtoupper($n) . '-' . strtoupper($m);
       }
-      print_r('demo', ['a', 'b', 'c'], ['d', 'e', 'f']); // ['A-D', 'B-E', 'C-F']
+      print_r(array_map('demo', ['a', 'b', 'c'], ['d', 'e', 'f'])); // ['A-D', 'B-E', 'C-F']
       ```
     - array_walk_recursive ( array &$array , callable $callback [, mixed $userdata = NULL ] ) : bool — 对数组中的每个成员递归地应用用户函数
       ```php
@@ -640,7 +644,7 @@ var_dump((array) new B());
        * b holds banana
        */
       array_walk($sweet, 'testPrint');
-      function testPrint($item, $key, $userData) {
+      function testPrint2($item, $key, $userData) {
           echo "$key holds $item and $userData\n";
       }
       /**
@@ -648,7 +652,7 @@ var_dump((array) new B());
        * b holds banana and php
        * sour holds lemon and php
        */
-      array_walk_recursive($fruits, 'testPrint2', 'php');
+      array_walk_recursive($sweet, 'testPrint2', 'php');
       ```
 10. **数组替换**
    - array_replace_recursive ( array $array1 [, array $... ] ) : array — 使用传递的数组递归替换第一个数组的元素
@@ -718,13 +722,13 @@ var_dump((array) new B());
     - array_flip ( array $array ) : array — 交换数组中的键和值
       ```php
       $a = ['a' => 1, 'b' => 2, 'c' => 3];
-      var_dump(array_filp($a)); // [1 => 'a', 2 => 'b', 3 => 'c']
+      var_dump(array_flip($a)); // [1 => 'a', 2 => 'b', 3 => 'c']
       ```
     - array_reverse ( array $array [, bool $preserve_keys = FALSE ] ) : array  — 返回单元顺序相反的数组
       ```php
       $a = ['php', 4.0, ['green', 'red']];
-      var_dump(array_reverse($a)); // [['green', 'red'], 7.1, 'php']
-      var_dump(array_reverse($a, true)); // [2 => ['green', 'red'], 1 => 7.1, 0 => 'php']
+      var_dump(array_reverse($a)); // [['green', 'red'], 4, 'php']
+      var_dump(array_reverse($a, true)); // [2 => ['green', 'red'], 1 => 4, 0 => 'php']
       ```
     - array_unique ( array $array [, int $sort_flags = SORT_STRING ] ) : array — 移除数组中重复的值
       ```php
